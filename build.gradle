@@ -1,0 +1,50 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+
+version = '1.0.0'
+group = 'com.nukethemoon.tools.simpletask'
+
+tasks.withType(JavaCompile) {
+	sourceCompatibility = "1.7"
+	targetCompatibility = "1.7"
+}
+
+sourceSets {
+	main {
+		java.srcDir 'src'
+	}
+	test {
+		java.srcDir 'test'
+	}
+}
+
+jar {
+	baseName = 'SimpleTask'
+	manifest {
+		attributes 'Implementation-Title': 'Execute tasks and get results.',
+				'Implementation-Version': version
+	}
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from javadoc.destinationDir
+}
+
+artifacts {
+	archives sourcesJar
+	archives javadocJar
+}
+
+uploadArchives {
+	repositories {
+		flatDir {
+			dirs 'build/jar'
+		}
+	}
+}
