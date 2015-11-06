@@ -1,0 +1,21 @@
+## Java
+
+*.class
+*.war
+*.ear
+hs_err_pid*
+
+## Intellij
+.idea/
+*.ipr
+*.iws
+*.iml
+out/
+
+## OS Specific
+.DS_Store
+
+## Gradle
+
+gradle-app.setting
+build/
