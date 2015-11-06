@@ -16,6 +16,6 @@ out/
 .DS_Store
 
 ## Gradle
-
+.gradle
 gradle-app.setting
 build/
