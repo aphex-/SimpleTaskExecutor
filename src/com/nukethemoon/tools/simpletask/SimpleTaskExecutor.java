@@ -35,9 +35,7 @@ public class SimpleTaskExecutor<T> {
 	 * @param threadCount The count of threads to use.
 	 */
 	public SimpleTaskExecutor(int threadCount) {
-		service = Executors.newFixedThreadPool(threadCount);
-		tasksToResult = new HashMap<Callable<T>, ResultListener<T>>();
-		futureToListener = new HashMap<Future<T>, ResultListener<T>>();
+		this(threadCount, Thread.NORM_PRIORITY, true);
 	}
 
 	/**
@@ -45,17 +43,9 @@ public class SimpleTaskExecutor<T> {
 	 * @param threadCount The count of threads to use.
 	 * @param proprity The execution priority of the threads.
 	 */
-	public SimpleTaskExecutor(int threadCount, final int priority) {
-		ThreadFactory threadFactory = new ThreadFactory() {
-			@Override
-			public Thread newThread(Runnable r) {
-				Thread thread = new Thread();
-				thread.setPriority(priority);
-				return thread;
-			}
-		};
-
-		service = Executors.newFixedThreadPool(threadCount, threadFactory);
+	public SimpleTaskExecutor(int threadCount, final int priority, boolean daemon) {
+		ThreadFactory simpleThreadFactory = new SimpleThreadFactory(priority, daemon);
+		service = Executors.newFixedThreadPool(threadCount, simpleThreadFactory);
 		tasksToResult = new HashMap<Callable<T>, ResultListener<T>>();
 		futureToListener = new HashMap<Future<T>, ResultListener<T>>();
 	}
